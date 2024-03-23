@@ -10,6 +10,22 @@ function createBoard(size) {
         return [result[1], result[2]];
     }
 
+    set_hover_effect = (cell) => {
+        cell.addEventListener('mouseover', (event) => {
+            event.target.setAttribute('style', 'background-color: #cffafe')
+        })
+        cell.addEventListener('mouseout', (event) => {
+            event.target.setAttribute('style', 'background-color: ')
+        })
+    }
+
+    set_click_event = (cell) => {
+        cell.addEventListener('click', (event) => {
+            let [x, y] = get_cell_coordinates(event.target.id);
+            console.log(`Clicked (${x}, ${y})`);
+        });
+    }
+
     create_html_board = () => {
         const table = document.createElement('table');
         for (let i = 0 ; i < size; i++) {
@@ -19,10 +35,8 @@ function createBoard(size) {
 
                 cell.setAttribute('id', `board(${i}, ${j})`);
 
-                cell.addEventListener('click', (event) => {
-                    let [x, y] = get_cell_coordinates(event.target.id);
-                    console.log(`Clicked (${x}, ${y})`);
-                });
+                set_click_event(cell);
+                set_hover_effect(cell);
             }
         }
         return table;
