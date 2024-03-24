@@ -18,3 +18,11 @@
 .board_container td {
     border: 3px solid black;
 }
+
+.users {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+}

@@ -26,7 +26,7 @@ function createBoard(size) {
         });
     }
 
-    create_html_board = () => {
+    create_html_elem = () => {
         const table = document.createElement('table');
         for (let i = 0 ; i < size; i++) {
             const row = table.insertRow(-1);
@@ -42,10 +42,51 @@ function createBoard(size) {
         return table;
     }
 
-    return {create_html_board};
+    return {create_html_elem};
 }
 
-const game_board = createBoard(3);
+function createUser(sign) {
+    let wins = 0;
 
-let board_container = document.querySelector('.board_container');
-board_container.appendChild(game_board.create_html_board());
+    const get_num_of_wins = () => wins;
+    const mark_win = () => wins++;
+    const get_sign = () => sign;
+
+    const create_html_elem = () => {
+        const user_elem = document.createElement('div');
+        user_elem.classList.add(`${sign}_points`);
+        user_elem.textContent = `${sign}: ${get_num_of_wins()}`;
+
+        return user_elem;
+    }
+
+    const update_html_elem = () => {
+        document.querySelector(`.${sign}_points`);
+        user_elem.textContent = `${sign}: ${wins}`;
+    }
+
+    return {get_num_of_wins, mark_win, get_sign, create_html_elem, update_html_elem};
+}
+
+function createGame(board_size) {
+    const users = [createUser('X'), createUser('O')];
+    const board = createBoard(board_size);
+
+    new_game = () => {
+        let stats = document.querySelector('.stats');
+        users.forEach((user) =>  {
+            stats.appendChild(user.create_html_elem())
+        });
+
+        let board_container = document.querySelector('.board_container');
+        board_container.appendChild(board.create_html_elem());
+    }
+
+    return {new_game};
+}
+
+const game = createGame(3);
+game.new_game();
+
+
+
