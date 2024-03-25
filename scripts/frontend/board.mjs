@@ -1,6 +1,4 @@
 export function createBoard(size) {
-    // const board = Array.from({length: size}, () => Array.from({length: size}));
-
     const get_cell_coordinates = (cell_id) =>  {
         let result = cell_id.match(/board\(([0-9]+), ([0-9]+)\)/);
         if (!result) {

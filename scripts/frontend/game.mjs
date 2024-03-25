@@ -1,14 +1,17 @@
-import { createBoard } from "/scripts/frontend/board.mjs";
-import { createUser } from "/scripts/frontend/user.mjs";
+// import { createBoard } from "/scripts/frontend/board.mjs";
+// import { createPlayer } from "/scripts/frontend/player.mjs";
 
-export function createGame(board_size) {
-    const users = [createUser('X'), createUser('O')];
+import {createGame} from "/scripts/background/game.mjs";
+
+
+export function createGameUI(board_size) {
+    const players = [createPlayer('X'), createPlayer('O')];
     const board = createBoard(board_size);
 
     const new_game = () => {
         let stats = document.querySelector('.stats');
-        users.forEach((user) =>  {
-            stats.appendChild(user.create_html_elem())
+        players.forEach((player) =>  {
+            stats.appendChild(player.create_html_elem())
         });
 
         let board_container = document.querySelector('.board_container');

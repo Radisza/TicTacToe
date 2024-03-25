@@ -1,18 +1,18 @@
-import { createUser } from "./user.mjs";
+import { createPlayer } from "./player.mjs";
 import { createBoard } from "../board.mjs";
 
 
 export function createGame(size) {
-    const users = [createUser('X'), createUser('O')];
-    let curr_user_idx = 0;
-    let curr_user = users[curr_user_idx];
+    const players = [createPlayer('X'), createPlayer('O')];
+    let curr_player_idx = 0;
+    let curr_player = players[curr_player_idx];
     let board = createBoard(size);
     let winning_fields = null;
 
-    const set_next_user = () => {
-        curr_user_idx = (curr_user_idx + 1) % users.length;
-        curr_user = users[curr_user_idx];
-        return curr_user;
+    const set_next_player = () => {
+        curr_player_idx = (curr_player_idx + 1) % players.length;
+        curr_player = players[curr_player_idx];
+        return curr_player;
     }
 
     const makeRound = (row, col) => {
@@ -20,7 +20,7 @@ export function createGame(size) {
             return new Error("Game finished.");
         }
         let symbol_counter = board.add_symbol(
-            curr_user.get_symbol(), row, col
+            curr_player.get_symbol(), row, col
         );
 
         if (symbol_counter instanceof Error) {
@@ -50,18 +50,19 @@ export function createGame(size) {
         }
 
         if (winning_fields != null) {
-            curr_user.user_win();
+            curr_player.player_win();
             return null;
         }
 
-        return set_next_user();
+        return set_next_player();
     }
 
     const get_winning_fields = () => winning_fields;
     const is_finished = () => winning_fields != null;
-    const get_curr_user = () => curr_user;
+    const get_curr_player = () => curr_player;
+    const get_players = () => players;
 
-    return {makeRound, get_winning_fields, is_finished, get_curr_user};
+    return {makeRound, get_winning_fields, is_finished, get_curr_player};
 
 
 }
