@@ -51,10 +51,11 @@ export function createGame(size) {
 
         if (winning_fields != null) {
             curr_player.player_win();
-            return null;
+        } else {
+            set_next_player();
         }
 
-        return set_next_player();
+        return winning_fields;
     }
 
     const get_winning_fields = () => winning_fields;
