@@ -1,5 +1,5 @@
 import { createPlayer } from "./player.mjs";
-import { createBoard } from "../board.mjs";
+import { createBoard } from "./board.mjs";
 
 
 export function createGame(size) {
@@ -63,7 +63,9 @@ export function createGame(size) {
     const get_curr_player = () => curr_player;
     const get_players = () => players;
 
-    return {makeRound, get_winning_fields, is_finished, get_curr_player};
-
-
+    return {makeRound,
+        get_winning_fields,
+        is_finished,
+        get_curr_player,
+        get_players};
 }

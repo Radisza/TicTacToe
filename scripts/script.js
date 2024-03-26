@@ -1,6 +1,6 @@
-import { createGame } from "./frontend/game.mjs";
+import { createScreenController } from "./frontend/screenController.mjs";
 
-const game = createGame(3);
+const game = createScreenController(3);
 game.new_game();
 
 
