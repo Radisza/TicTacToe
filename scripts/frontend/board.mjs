@@ -30,13 +30,12 @@ export function createBoard(size) {
             const row = table.insertRow(-1);
             for (let j = 0; j < size; j++) {
                 const cell = row.insertCell(-1);
-
                 cell.setAttribute('id', `board(${i}, ${j})`);
-
-                set_click_event(cell);
-                set_hover_effect(cell);
             }
         }
+
+        set_click_event(table);
+        set_hover_effect(table);
         return table;
     }
 
