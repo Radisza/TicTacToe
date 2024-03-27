@@ -11,12 +11,12 @@ export function createBoard(size) {
     const board = Array.from({length: size}, () => Array.from({length: size}));
 
     // Counts symbols across rows, columns and diagonals
-    let symbol_counter = {
-        'top_left_diag': {},
-        'bottom_left_diag': {},
-    }
+    let symbol_counter = {}
 
     const increase_counter = (counter_key, symbol) => {
+        if (!(counter_key in symbol_counter)) {
+            symbol_counter[counter_key] = {};
+        }
         let counter = symbol_counter[counter_key];
         if (!(symbol in counter)) {
             counter[symbol] = 0;
@@ -25,10 +25,10 @@ export function createBoard(size) {
     }
 
     const add_symbol = (symbol, row, col) => {
-        if (row < 0 || row <= size) {
+        if (row < 0 || row >= size) {
             return new Error(`Invalid row: ${row}. Expected digit between (0, ${size - 1})`);
         }
-        if (col < 0 || col <= size) {
+        if (col < 0 || col >= size) {
             return new Error(`Invalid column: ${col}. Expected digit between (0, ${size - 1})`);
         }
 
