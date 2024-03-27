@@ -11,20 +11,25 @@ export function createBoard(size) {
     const board = Array.from({length: size}, () => Array.from({length: size}));
 
     // Counts symbols across rows, columns and diagonals
-    let symbol_counter = {}
+    let symbol_surface_counter = {}
+    let available_symbols_num = size*size;
 
     const increase_counter = (counter_key, symbol) => {
-        if (!(counter_key in symbol_counter)) {
-            symbol_counter[counter_key] = {};
+        if (!(counter_key in symbol_surface_counter)) {
+            symbol_surface_counter[counter_key] = {};
         }
-        let counter = symbol_counter[counter_key];
+
+        let counter = symbol_surface_counter[counter_key];
         if (!(symbol in counter)) {
             counter[symbol] = 0;
         }
-        return counter[symbol]++;
+        return ++counter[symbol];
     }
 
     const add_symbol = (symbol, row, col) => {
+        if (board[row][col] != undefined) {
+            return new Error(`Field ${row, col} is filled`);
+        }
         if (row < 0 || row >= size) {
             return new Error(`Invalid row: ${row}. Expected digit between (0, ${size - 1})`);
         }
@@ -32,19 +37,21 @@ export function createBoard(size) {
             return new Error(`Invalid column: ${col}. Expected digit between (0, ${size - 1})`);
         }
 
-        board[row, col] = symbol;
-
-        let symbol_counter = createSymbolCounter();
-        symbol_counter.row = increase_counter('row_' + row, symbol);
-        symbol_counter.col = increase_counter('col_' + col, symbol);
+        available_symbols_num--;
+        board[row][col] = symbol;
+        let result = createSymbolCounter();
+        result.row = increase_counter('row_' + row, symbol);
+        result.col = increase_counter('col_' + col, symbol);
         if (row == col) {
-            symbol_counter.top_left_diag = increase_counter('top_left_diag', symbol);
-        } else if (row + col == size) {
-            symbol_counter.bottom_left_diag = increase_counter('bottom_left_diag', symbol);
+            result.top_left_diag = increase_counter('top_left_diag', symbol);
+        }
+        if (row + col == size-1) {
+            result.bottom_left_diag = increase_counter('bottom_left_diag', symbol);
         }
 
-        return symbol_counter;
+        return result;
     }
+    const has_empty_fields = () => available_symbols_num > 0;
 
-    return {add_symbol};
+    return {add_symbol, has_empty_fields};
 }

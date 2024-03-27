@@ -55,7 +55,7 @@ export function createScreenController(board_size) {
         let curr_player = game.get_curr_player();
         let result = game.makeRound(row, col);
         if (result instanceof Error) {
-            prompt(result.message);
+            window.alert(result.message);
             return null;
         }
 
@@ -63,10 +63,10 @@ export function createScreenController(board_size) {
             // No one win, update screen and prepare for next move
             let next_player = game.get_curr_player();
             console.log("Next move for " + next_player.get_symbol());
-        } else if (result.lenth() > 0) {
-            prompt(curr_player.get_symbol() + " WIN!");
+        } else if (result.length > 0) {
+            window.alert(curr_player.get_symbol() + " WIN!");
         } else {
-            prompt("DRAW!");
+            window.alert("DRAW!");
         }
         return curr_player.get_symbol();
     }

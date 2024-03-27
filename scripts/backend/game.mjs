@@ -26,7 +26,6 @@ export function createGame(size) {
         if (symbol_counter instanceof Error) {
             return symbol_counter;
         }
-
         if (symbol_counter.row == size) {
             winning_fields = [];
             for (let j = 0; j < size; j++) {
@@ -51,6 +50,9 @@ export function createGame(size) {
 
         if (winning_fields != null) {
             curr_player.player_win();
+        } else if (!board.has_empty_fields()) {
+            // No more fields and no win is draw
+            winning_fields = [];
         } else {
             set_next_player();
         }

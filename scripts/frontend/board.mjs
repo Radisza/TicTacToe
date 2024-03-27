@@ -9,7 +9,7 @@ export function createBoard(size) {
             console.log("Invalid cell id. Expected: board(x, y), got: " +  cell_id);
         }
 
-        return [result[1], result[2]];
+        return [parseInt(result[1]), parseInt(result[2])];
     }
 
     const create_html_elem = () => {
