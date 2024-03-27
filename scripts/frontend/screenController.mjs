@@ -25,13 +25,16 @@ export function createScreenController(board_size) {
 
     const set_click_event = (table) => {
         table.addEventListener('click', (event) => {
+            if (event.target.id == "") {
+                console.log(`Missing id for ${event.target.nodeName}`);
+                return;
+            }
             let [x, y] = board.get_cell_coordinates(event.target.id);
 
-            console.log(`Clicked (${x}, ${y})`);
-            console.log(event.target);
             let symbol = playRound(x, y);
             if (symbol != null) {
                 board.add_symbol(event.target, symbol);
+                board.block_cell(event.target);
             }
         });
     }

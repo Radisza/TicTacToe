@@ -39,9 +39,14 @@ export function createBoard(size) {
         cell.innerHTML = symbol;
     }
 
+    const block_cell = (cell) => {
+        cell.style.pointerEvents='none';
+    }
+
     return {
         get_html_elem,
         get_cell_coordinates,
-        add_symbol
+        add_symbol,
+        block_cell,
     };
 }
