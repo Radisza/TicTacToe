@@ -4,9 +4,15 @@
     box-sizing: border-box;
 }
 
+.container {
+    max-width: 600px;
+    margin: auto;
+}
+
 .board_container {
     width: 600px;
     height: 600px;
+    padding: 16px;
 }
 
 .board_container > table {
@@ -23,10 +29,20 @@
     white-space: nowrap;
 }
 
-.users {
+.players {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     gap: 16px;
     padding: 16px;
+}
+
+.player {
+    font-size: 2rem;
+    border-radius: 10px;
+    width: 40%;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }

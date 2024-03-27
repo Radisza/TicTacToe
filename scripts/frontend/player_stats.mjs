@@ -2,11 +2,16 @@
 export function createPlayerStats(player) {
 
     const create_html_elem = () => {
-        const symbol = player.get_symbol();
-
         const player_elem = document.createElement('div');
-        player_elem.classList.add(`player_${symbol}`);
-        player_elem.textContent = `${symbol}: ${player.get_num_of_wins()}`;
+        player_elem.classList.add(`player`);
+
+        const player_symbol = document.createElement('div');
+        player_symbol.textContent = player.get_symbol();
+        player_elem.appendChild(player_symbol);
+
+        const points = document.createElement('div');
+        points.textContent = player.get_num_of_wins();
+        player_elem.appendChild(points);
 
         return player_elem;
     }

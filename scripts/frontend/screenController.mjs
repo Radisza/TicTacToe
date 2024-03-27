@@ -10,7 +10,7 @@ export function createScreenController(board_size) {
             set_hover_effect(field);
         })
 
-        let stats = document.querySelector('.stats');
+        let stats = document.querySelector('.players');
         Object.entries(players).forEach(([_, player]) =>  {
             stats.appendChild(player.get_html_elem())
         });
