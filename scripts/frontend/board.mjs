@@ -41,10 +41,15 @@ export function createBoard(size) {
         cell.style.pointerEvents='none';
     }
 
+    const fields = () => {
+        return board.rows;
+    };
+
     return {
         get_html_elem,
         get_cell_coordinates,
         add_symbol,
         block_cell,
+        fields,
     };
 }

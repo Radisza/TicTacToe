@@ -45,8 +45,10 @@ export function createScreenController(board_size) {
         game.get_players().map(
             (player) => [player.get_symbol(), createPlayerStats(player)]));
 
-    set_click_event(board.get_html_elem());
-    set_hover_effect(board.get_html_elem());
+    Array.prototype.forEach.call(board.fields(), (field) => {
+        set_click_event(field);
+        set_hover_effect(field);
+    })
 
     const playRound = (row, col) => {
         // get current player, before making round. After round player changes.
