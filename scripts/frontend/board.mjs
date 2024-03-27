@@ -19,6 +19,8 @@ export function createBoard(size) {
             for (let j = 0; j < size; j++) {
                 const cell = row.insertCell(-1);
                 cell.setAttribute('id', get_board_id(i, j));
+                cell.style.width = 100/size + '%'
+                cell.style.height = 100/size + '%'
             }
         }
 
@@ -26,8 +28,20 @@ export function createBoard(size) {
     }
 
     const get_html_elem = () => board;
-
     let board = create_html_elem();
 
-    return {get_html_elem};
+    const add_symbol = (cell, symbol) => {
+        // OffsetWidth is available after element is appended to html.
+        // So font-size should be set here.
+        const table_size = board.offsetWidth;
+        const font_size = (2*table_size) / (3*size);
+        cell.style.fontSize = font_size + 'px';
+        cell.innerHTML = symbol;
+    }
+
+    return {
+        get_html_elem,
+        get_cell_coordinates,
+        add_symbol
+    };
 }

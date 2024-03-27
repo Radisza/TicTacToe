@@ -16,10 +16,10 @@ export function createScreenController(board_size) {
 
     const set_hover_effect = (table) => {
         table.addEventListener('mouseover', (event) => {
-            event.target.setAttribute('style', 'background-color: #cffafe')
+            event.target.style.backgroundColor = '#cffafe';
         })
         table.addEventListener('mouseout', (event) => {
-            event.target.setAttribute('style', 'background-color: ')
+            event.target.style.backgroundColor = '';
         })
     }
 
@@ -29,6 +29,10 @@ export function createScreenController(board_size) {
 
             console.log(`Clicked (${x}, ${y})`);
             console.log(event.target);
+            let symbol = playRound(x, y);
+            if (symbol != null) {
+                board.add_symbol(event.target, symbol);
+            }
         });
     }
 
@@ -41,6 +45,26 @@ export function createScreenController(board_size) {
     set_click_event(board.get_html_elem());
     set_hover_effect(board.get_html_elem());
 
+    const playRound = (row, col) => {
+        // get current player, before making round. After round player changes.
+        let curr_player = game.get_curr_player();
+        let result = game.makeRound(row, col);
+        if (result instanceof Error) {
+            prompt(result.message);
+            return null;
+        }
+
+        if (result == null) {
+            // No one win, update screen and prepare for next move
+            let next_player = game.get_curr_player();
+            console.log("Next move for " + next_player.get_symbol());
+        } else if (result.lenth() > 0) {
+            prompt(curr_player.get_symbol() + " WIN!");
+        } else {
+            prompt("DRAW!");
+        }
+        return curr_player.get_symbol();
+    }
 
     new_game();
 

@@ -17,6 +17,10 @@
 
 .board_container td {
     border: 3px solid black;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .users {
