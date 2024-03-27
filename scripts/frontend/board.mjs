@@ -33,9 +33,7 @@ export function createBoard(size) {
     const add_symbol = (cell, symbol) => {
         // OffsetWidth is available after element is appended to html.
         // So font-size should be set here.
-        const table_size = board.offsetWidth;
-        const font_size = (2*table_size) / (3*size);
-        cell.style.fontSize = font_size + 'px';
+        cell.style.fontSize = 0.6 * cell.offsetWidth + 'px';
         cell.innerHTML = symbol;
     }
 
