@@ -5,6 +5,11 @@ import {createBoard} from "/scripts/frontend/board.mjs";
 
 export function createScreenController(board_size) {
     const new_game = () => {
+        Array.prototype.forEach.call(board.fields(), (field) => {
+            set_click_event(field);
+            set_hover_effect(field);
+        })
+
         let stats = document.querySelector('.stats');
         Object.entries(players).forEach(([_, player]) =>  {
             stats.appendChild(player.get_html_elem())
@@ -39,16 +44,6 @@ export function createScreenController(board_size) {
         });
     }
 
-    let game = createGame(board_size);
-    const board = createBoard(board_size);
-    const players = Object.fromEntries(
-        game.get_players().map(
-            (player) => [player.get_symbol(), createPlayerStats(player)]));
-
-    Array.prototype.forEach.call(board.fields(), (field) => {
-        set_click_event(field);
-        set_hover_effect(field);
-    })
 
     const playRound = (row, col) => {
         // get current player, before making round. After round player changes.
@@ -70,6 +65,13 @@ export function createScreenController(board_size) {
         }
         return curr_player.get_symbol();
     }
+
+
+    let game = createGame(board_size);
+    const board = createBoard(board_size);
+    const players = Object.fromEntries(
+        game.get_players().map(
+            (player) => [player.get_symbol(), createPlayerStats(player)]));
 
     new_game();
 

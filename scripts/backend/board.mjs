@@ -28,7 +28,7 @@ export function createBoard(size) {
 
     const add_symbol = (symbol, row, col) => {
         if (board[row][col] != undefined) {
-            return new Error(`Field ${row, col} is filled`);
+            return new Error(`Field (${row}, ${col}) is already filled with ${board[row][col]}`);
         }
         if (row < 0 || row >= size) {
             return new Error(`Invalid row: ${row}. Expected digit between (0, ${size - 1})`);
