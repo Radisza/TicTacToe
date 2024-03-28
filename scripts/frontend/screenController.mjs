@@ -38,17 +38,12 @@ export function createScreenController(board_size) {
                 return;
             }
             let [x, y] = board.get_cell_coordinates(event.target.id);
-
-            let symbol = playRound(x, y);
-            if (symbol != null) {
-                board.add_symbol(event.target, symbol);
-                board.block_cell(event.target);
-            }
+            playRound(event.target, x, y);
         });
     }
 
 
-    const playRound = (row, col) => {
+    const playRound = (cell, row, col) => {
         // get current player, before making round. After round player changes.
         let curr_player = game.get_curr_player();
         let result = game.makeRound(row, col);
@@ -56,6 +51,10 @@ export function createScreenController(board_size) {
             window.alert(result.message);
             return null;
         }
+
+
+        board.add_symbol(cell, curr_player.get_symbol());
+        board.block_cell(cell);
 
         if (result == null) {
             // No one win, update screen and prepare for next move
