@@ -50,3 +50,10 @@
 .player_highlight {
     box-shadow: 0 3px 10px blueviolet;
 }
+
+.player_message {
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 16px;
+    font-weight: 700;
+}

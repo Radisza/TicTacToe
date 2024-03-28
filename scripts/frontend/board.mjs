@@ -41,6 +41,14 @@ export function createBoard(size) {
         cell.style.pointerEvents='none';
     }
 
+    const block = () => {
+        for (const row of board.rows) {
+            for (const cell of row.cells) {
+                block_cell(cell);
+            }
+        }
+    }
+
     const fields = () => {
         return board.rows;
     };
@@ -51,5 +59,6 @@ export function createBoard(size) {
         add_symbol,
         block_cell,
         fields,
+        block,
     };
 }

@@ -18,8 +18,19 @@ export function createScreenController(board_size) {
         let board_container = document.querySelector('.board_container');
         board_container.appendChild(board.get_html_elem());
 
-        let curr_player = game.get_curr_player();
-        players[curr_player.get_symbol()].highlight();
+        highlight_players();
+    }
+
+    const highlight_players = () => {
+        let curr_player = game.get_curr_player().get_symbol();
+        for (const [symbol, player] of Object.entries(players)) {
+            if (symbol == curr_player) {
+                player.highlight();
+            } else {
+                player.remove_highlight()
+            }
+        }
+        player_message.textContent = `User ${curr_player} turn.`
     }
 
     const set_hover_effect = (table) => {
@@ -45,34 +56,27 @@ export function createScreenController(board_size) {
 
     const playRound = (cell, row, col) => {
         // get current player, before making round. After round player changes.
-        let curr_player = game.get_curr_player();
+        let curr_player = game.get_curr_player().get_symbol();
         let result = game.makeRound(row, col);
         if (result instanceof Error) {
             window.alert(result.message);
             return null;
         }
 
-
-        board.add_symbol(cell, curr_player.get_symbol());
+        board.add_symbol(cell, curr_player);
         board.block_cell(cell);
 
         if (result == null) {
-            // No one win, update screen and prepare for next move
-            const next_player = game.get_curr_player();
-            for (const [symbol, player] of Object.entries(players)) {
-                if (symbol == next_player.get_symbol()) {
-                    player.highlight();
-                } else {
-                    player.remove_highlight()
-                }
-            }
-            console.log("Next move for " + next_player.get_symbol());
+            highlight_players();
         } else if (result.length > 0) {
-            window.alert(curr_player.get_symbol() + " WIN!");
+            player_message.textContent = `Player ${curr_player} win!`;
+            players[curr_player].update_html_elem();
+            board.block();
         } else {
-            window.alert("DRAW!");
+            player_message.textContent = `Draw, both players win!`;
+            board.block();
         }
-        return curr_player.get_symbol();
+        return curr_player;
     }
 
 
@@ -81,6 +85,7 @@ export function createScreenController(board_size) {
     const players = Object.fromEntries(
         game.get_players().map(
             (player) => [player.get_symbol(), createPlayerStats(player)]));
+    const player_message = document.querySelector(".player_message");
 
     new_game();
 
