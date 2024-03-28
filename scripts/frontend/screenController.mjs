@@ -17,6 +17,9 @@ export function createScreenController(board_size) {
 
         let board_container = document.querySelector('.board_container');
         board_container.appendChild(board.get_html_elem());
+
+        let curr_player = game.get_curr_player();
+        players[curr_player.get_symbol()].highlight();
     }
 
     const set_hover_effect = (table) => {
@@ -56,7 +59,14 @@ export function createScreenController(board_size) {
 
         if (result == null) {
             // No one win, update screen and prepare for next move
-            let next_player = game.get_curr_player();
+            const next_player = game.get_curr_player();
+            for (const [symbol, player] of Object.entries(players)) {
+                if (symbol == next_player.get_symbol()) {
+                    player.highlight();
+                } else {
+                    player.remove_highlight()
+                }
+            }
             console.log("Next move for " + next_player.get_symbol());
         } else if (result.length > 0) {
             window.alert(curr_player.get_symbol() + " WIN!");
