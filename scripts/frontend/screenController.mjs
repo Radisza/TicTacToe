@@ -17,7 +17,6 @@ export function createScreenController(board_size) {
 
         let board_container = document.querySelector('.board_container');
         board_container.appendChild(board.get_html_elem());
-
         highlight_players();
     }
 
@@ -53,6 +52,10 @@ export function createScreenController(board_size) {
         });
     }
 
+    const cross_winning_fields = (line) => {
+        let board_container = document.querySelector('.board_container');
+        board_container.appendChild(line);
+    }
 
     const playRound = (cell, row, col) => {
         // get current player, before making round. After round player changes.
@@ -72,7 +75,7 @@ export function createScreenController(board_size) {
             player_message.textContent = `Player ${curr_player} win!`;
             players[curr_player].update_html_elem();
             board.block();
-            board.blink(result);
+            cross_winning_fields(board.get_path_accros_fields(result));
         } else {
             player_message.textContent = `Draw, both players win!`;
             board.block();

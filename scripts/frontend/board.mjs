@@ -27,6 +27,38 @@ export function createBoard(size) {
         return table;
     }
 
+    const create_path = (cell1, cell2) => {
+        let cell_width = 100/size;
+        let bx, by, ex, ey
+        if (cell1[0] >= cell2[0] || cell1[1] <= cell2[1]) {
+            // * from left to right  and top to botoom
+            // * horizontal or vertical line
+            [bx, by] = [cell1[0] * cell_width, cell1[1] * cell_width] ;
+            [ex, ey] = [(cell2[0]+1) * cell_width, (cell2[1]+1) * cell_width]
+        } else {
+            // draw from right to left and bottom to up
+            [bx, by] = [cell1[0] * cell_width, (cell1[1]+1) * cell_width] ;
+            [ex, ey] = [(cell2[0]+1) * cell_width, cell2[1] * cell_width]
+        }
+
+        if (cell1[0] == cell2[0]) {
+            bx += cell_width/2;
+            ex -= cell_width/2;
+        } else if (cell1[1] == cell2[1]) {
+            by += cell_width/2;
+            ey -= cell_width/2;
+        }
+
+        let path_container = document.createElement('div');
+        path_container.classList.add("svg_container");
+        path_container.innerHTML =`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <path d="M ${by} ${bx} L ${ey} ${ex} " fill="transparent" stroke="black" stroke-width="1"/>
+            </svg>
+            `
+        return path_container;
+    }
+
     const get_html_elem = () => board;
     let board = create_html_elem();
     let blink_ids = [];
@@ -66,6 +98,26 @@ export function createBoard(size) {
         blink_ids = [];
     }
 
+    const find_min_max_tuple = (array_of_tuples) => {
+        if (array_of_tuples.length == 0) {
+            return null;
+        }
+        let min = array_of_tuples[0];
+        let max = array_of_tuples[0];
+        for (let tuple of array_of_tuples) {
+            if (tuple[0] < min[0] || tuple[0] == min[0] && tuple[1] < min[1]) {
+                min = tuple;
+            } else if (tuple[0] > max[0] || tuple[0] == max[0] && tuple[1] > max[1]){
+                max = tuple;
+            }
+        }
+        return [min, max];
+    }
+
+    const get_path_accros_fields = (cells) => {
+        let [min, max] = find_min_max_tuple(cells);
+        return create_path(min, max);
+    }
     const fields = () => {
         return board.rows;
     };
@@ -79,5 +131,6 @@ export function createBoard(size) {
         block,
         blink,
         clear_blink,
+        get_path_accros_fields,
     };
 }

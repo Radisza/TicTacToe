@@ -9,10 +9,12 @@
     margin: auto;
 }
 
+
 .board_container {
+    position: relative;
     width: 600px;
     height: 600px;
-    padding: 16px;
+    margin: 16px;
 }
 
 .board_container > table {
@@ -27,6 +29,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.svg_container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .players {
