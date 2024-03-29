@@ -61,7 +61,6 @@ export function createBoard(size) {
 
     const get_html_elem = () => board;
     let board = create_html_elem();
-    let blink_ids = [];
 
     const add_symbol = (cell, symbol) => {
         // OffsetWidth is available after element is appended to html.
@@ -82,22 +81,6 @@ export function createBoard(size) {
         }
     }
 
-    const set_blink_style = (elem) => {
-        elem.style.opacity = (elem.style.opacity == 1 ? 0 : 1);
-    }
-
-    const blink = (cells) => {
-        for (const [row, col] of cells) {
-            const cell = board.querySelector('#'+ get_cell_id(row, col));
-            blink_ids.push(setInterval(() => {set_blink_style(cell)}, 500));
-        }
-    }
-
-    const clear_blink = () => {
-        blink_ids.forEach((id) => {clearInterval(id)});
-        blink_ids = [];
-    }
-
     const find_min_max_tuple = (array_of_tuples) => {
         if (array_of_tuples.length == 0) {
             return null;
@@ -114,7 +97,7 @@ export function createBoard(size) {
         return [min, max];
     }
 
-    const get_path_accros_fields = (cells) => {
+    const strike_through_cells = (cells) => {
         let [min, max] = find_min_max_tuple(cells);
         return create_path(min, max);
     }
@@ -129,8 +112,6 @@ export function createBoard(size) {
         block_cell,
         fields,
         block,
-        blink,
-        clear_blink,
-        get_path_accros_fields,
+        strike_through_cells,
     };
 }

@@ -52,7 +52,7 @@ export function createScreenController(board_size) {
         });
     }
 
-    const cross_winning_fields = (line) => {
+    const add_winning_fields_mark = (line) => {
         let board_container = document.querySelector('.board_container');
         board_container.appendChild(line);
     }
@@ -75,7 +75,7 @@ export function createScreenController(board_size) {
             player_message.textContent = `Player ${curr_player} win!`;
             players[curr_player].update_html_elem();
             board.block();
-            cross_winning_fields(board.get_path_accros_fields(result));
+            add_winning_fields_mark(board.strike_through_cells(result));
         } else {
             player_message.textContent = `Draw, both players win!`;
             board.block();
