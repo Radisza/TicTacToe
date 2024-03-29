@@ -72,6 +72,7 @@ export function createScreenController(board_size) {
             player_message.textContent = `Player ${curr_player} win!`;
             players[curr_player].update_html_elem();
             board.block();
+            board.blink(result);
         } else {
             player_message.textContent = `Draw, both players win!`;
             board.block();

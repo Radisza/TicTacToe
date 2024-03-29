@@ -1,10 +1,10 @@
 
 export function createBoard(size) {
 
-    const get_board_id = (row, col) => `board(${row}, ${col})`;
+    const get_cell_id = (row, col) => `cell_${row}_${col}`;
 
     const get_cell_coordinates = (cell_id) =>  {
-        let result = cell_id.match(/board\(([0-9]+), ([0-9]+)\)/);
+        let result = cell_id.match(/cell_([0-9]+)_([0-9]+)/);
         if (!result) {
             console.log("Invalid cell id. Expected: board(x, y), got: " +  cell_id);
         }
@@ -18,7 +18,7 @@ export function createBoard(size) {
             const row = table.insertRow(-1);
             for (let j = 0; j < size; j++) {
                 const cell = row.insertCell(-1);
-                cell.setAttribute('id', get_board_id(i, j));
+                cell.setAttribute('id', get_cell_id(i, j));
                 cell.style.width = 100/size + '%'
                 cell.style.height = 100/size + '%'
             }
@@ -29,6 +29,7 @@ export function createBoard(size) {
 
     const get_html_elem = () => board;
     let board = create_html_elem();
+    let blink_ids = [];
 
     const add_symbol = (cell, symbol) => {
         // OffsetWidth is available after element is appended to html.
@@ -49,6 +50,22 @@ export function createBoard(size) {
         }
     }
 
+    const set_blink_style = (elem) => {
+        elem.style.opacity = (elem.style.opacity == 1 ? 0 : 1);
+    }
+
+    const blink = (cells) => {
+        for (const [row, col] of cells) {
+            const cell = board.querySelector('#'+ get_cell_id(row, col));
+            blink_ids.push(setInterval(() => {set_blink_style(cell)}, 500));
+        }
+    }
+
+    const clear_blink = () => {
+        blink_ids.forEach((id) => {clearInterval(id)});
+        blink_ids = [];
+    }
+
     const fields = () => {
         return board.rows;
     };
@@ -60,5 +77,7 @@ export function createBoard(size) {
         block_cell,
         fields,
         block,
+        blink,
+        clear_blink,
     };
 }

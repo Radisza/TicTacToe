@@ -29,22 +29,22 @@ export function createGame(size) {
         if (symbol_counter.row == size) {
             winning_fields = [];
             for (let j = 0; j < size; j++) {
-                winning_fields.push((row, j));
+                winning_fields.push([row, j]);
             }
         } else if (symbol_counter.col == size) {
             winning_fields = [];
             for (let i = 0; i < size; i++) {
-                winning_fields.push((i, col));
+                winning_fields.push([i, col]);
             }
         } else if (symbol_counter.top_left_diag == size) {
             winning_fields = [];
             for (let i = 0; i < size; i++) {
-                winning_fields.push((i, i));
+                winning_fields.push([i, i]);
             }
         } else if (symbol_counter.bottom_left_diag == size) {
             winning_fields = [];
             for (let i = 0; i < size; i++) {
-                winning_fields.push((i, size-i-1));
+                winning_fields.push([i, size-i-1]);
             }
         }
 
