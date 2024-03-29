@@ -5,7 +5,7 @@
 }
 
 .container {
-    max-width: 600px;
+    max-width: 700px;
     margin: auto;
 }
 
@@ -14,7 +14,7 @@
     position: relative;
     width: 600px;
     height: 600px;
-    margin: 16px;
+    margin: 16px auto;
 }
 
 .board_container > table {
@@ -66,4 +66,18 @@
     font-size: 1.5rem;
     padding: 16px;
     font-weight: 700;
+}
+
+.buttons {
+    margin: 16px auto;
+    width: fit-content;
+}
+
+.buttons > button {
+    background-color: lightblue;
+    text-align: center;
+    padding: 16px;
+    border-radius: 20px;
+    box-shadow: 0 3px 10px black;
+    font-weight: 900;;
 }

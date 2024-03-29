@@ -4,18 +4,34 @@ import {createPlayerStats} from "/scripts/frontend/player_stats.mjs";
 import {createBoard} from "/scripts/frontend/board.mjs";
 
 export function createScreenController(board_size) {
-    const new_game = () => {
+
+    const new_game = ()  => {
+        let stats = document.querySelector('.players');
+        stats.innerHTML = "";
+        Object.entries(players).forEach(([_, player]) =>  {
+            stats.appendChild(player.get_html_elem())
+        });
+
+        restart();
+
+        let restart_button = document.querySelector(".play_again_btn");
+        restart_button.addEventListener('click', (event ) => {
+            event.preventDefault();
+            restart();
+        })
+
+    }
+    const restart = () => {
+        game.restart();
+        board = createBoard(board_size);
         Array.prototype.forEach.call(board.fields(), (field) => {
             set_click_event(field);
             set_hover_effect(field);
         })
 
-        let stats = document.querySelector('.players');
-        Object.entries(players).forEach(([_, player]) =>  {
-            stats.appendChild(player.get_html_elem())
-        });
 
         let board_container = document.querySelector('.board_container');
+        board_container.innerHTML = "";
         board_container.appendChild(board.get_html_elem());
         highlight_players();
     }
@@ -84,12 +100,13 @@ export function createScreenController(board_size) {
     }
 
 
-    let game = createGame(board_size);
-    const board = createBoard(board_size);
+    const game = createGame(board_size);
     const players = Object.fromEntries(
         game.get_players().map(
             (player) => [player.get_symbol(), createPlayerStats(player)]));
+
     const player_message = document.querySelector(".player_message");
+    let board = null;
 
     new_game();
 

@@ -3,11 +3,14 @@ import { createBoard } from "./board.mjs";
 
 
 export function createGame(size) {
-    const players = [createPlayer('X'), createPlayer('O')];
-    let curr_player_idx = 0;
-    let curr_player = players[curr_player_idx];
-    let board = createBoard(size);
-    let winning_fields = null;
+
+    let restart = () => {
+        // Restart everything except the players
+        curr_player_idx = 0;
+        curr_player = players[curr_player_idx];
+        board = createBoard(size);
+        winning_fields = null;
+    }
 
     const set_next_player = () => {
         curr_player_idx = (curr_player_idx + 1) % players.length;
@@ -65,9 +68,20 @@ export function createGame(size) {
     const get_curr_player = () => curr_player;
     const get_players = () => players;
 
+    // Intance variables
+    const players = [createPlayer('X'), createPlayer('O')];
+    let curr_player_idx = null;
+    let curr_player = null;
+    let board = null;
+    let winning_fields = null;
+
+    restart();
+
     return {makeRound,
         get_winning_fields,
         is_finished,
         get_curr_player,
-        get_players};
+        get_players,
+        restart,
+    };
 }
