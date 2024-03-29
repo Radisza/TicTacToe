@@ -7,7 +7,6 @@ export function createScreenController(board_size) {
 
     const new_game = ()  => {
         let stats = document.querySelector('.players');
-        stats.innerHTML = "";
         Object.entries(players).forEach(([_, player]) =>  {
             stats.appendChild(player.get_html_elem())
         });
