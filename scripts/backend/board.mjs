@@ -1,57 +1,69 @@
 function createSymbolCounter() {
-    let row = null
-    let col = null
-    let top_left_diag = null
-    let bottom_left_diag = null
+  const row = null;
+  const col = null;
+  const top_left_diag = null;
+  const bottom_left_diag = null;
 
-    return {row, col, top_left_diag, bottom_left_diag};
+  return {
+    row, col, top_left_diag, bottom_left_diag,
+  };
 }
 
 export function createBoard(size) {
-    const board = Array.from({length: size}, () => Array.from({length: size}));
+  const new_game = () => {
+    board = Array.from({ length: size }, () => Array.from({ length: size }));
 
     // Counts symbols across rows, columns and diagonals
-    let symbol_surface_counter = {}
-    let available_symbols_num = size*size;
+    const symbol_surface_counter = {};
+    const available_symbols_num = size * size;
+  };
 
-    const increase_counter = (counter_key, symbol) => {
-        if (!(counter_key in symbol_surface_counter)) {
-            symbol_surface_counter[counter_key] = {};
-        }
-
-        let counter = symbol_surface_counter[counter_key];
-        if (!(symbol in counter)) {
-            counter[symbol] = 0;
-        }
-        return ++counter[symbol];
+  const increase_counter = (counter_key, symbol) => {
+    if (!(counter_key in symbol_surface_counter)) {
+      symbol_surface_counter[counter_key] = {};
     }
 
-    const add_symbol = (symbol, row, col) => {
-        if (board[row][col] != undefined) {
-            return new Error(`Field (${row}, ${col}) is already filled with ${board[row][col]}`);
-        }
-        if (row < 0 || row >= size) {
-            return new Error(`Invalid row: ${row}. Expected digit between (0, ${size - 1})`);
-        }
-        if (col < 0 || col >= size) {
-            return new Error(`Invalid column: ${col}. Expected digit between (0, ${size - 1})`);
-        }
-
-        available_symbols_num--;
-        board[row][col] = symbol;
-        let result = createSymbolCounter();
-        result.row = increase_counter('row_' + row, symbol);
-        result.col = increase_counter('col_' + col, symbol);
-        if (row == col) {
-            result.top_left_diag = increase_counter('top_left_diag', symbol);
-        }
-        if (row + col == size-1) {
-            result.bottom_left_diag = increase_counter('bottom_left_diag', symbol);
-        }
-
-        return result;
+    const counter = symbol_surface_counter[counter_key];
+    if (!(symbol in counter)) {
+      counter[symbol] = 0;
     }
-    const has_empty_fields = () => available_symbols_num > 0;
+    return ++counter[symbol];
+  };
 
-    return {add_symbol, has_empty_fields};
+  const add_symbol = (symbol, row, col) => {
+    if (board[row][col] != undefined) {
+      return new Error(`Field (${row}, ${col}) is already filled with ${board[row][col]}`);
+    }
+    if (row < 0 || row >= size) {
+      return new Error(`Invalid row: ${row}. Expected digit between (0, ${size - 1})`);
+    }
+    if (col < 0 || col >= size) {
+      return new Error(`Invalid column: ${col}. Expected digit between (0, ${size - 1})`);
+    }
+
+    available_symbols_num--;
+    board[row][col] = symbol;
+    const result = createSymbolCounter();
+    result.row = increase_counter(`row_${row}`, symbol);
+    result.col = increase_counter(`col_${col}`, symbol);
+    if (row == col) {
+      result.top_left_diag = increase_counter('top_left_diag', symbol);
+    }
+
+    if (row + col == size - 1) {
+      result.bottom_left_diag = increase_counter('bottom_left_diag', symbol);
+    }
+
+    return result;
+  };
+  const has_empty_fields = () => available_symbols_num > 0;
+
+  const board = null;
+
+  // Counts symbols across rows, columns and diagonals
+  let symbol_surface_counter = {};
+  let available_symbols_num = size * size;
+
+  new_game();
+  return { add_symbol, has_empty_fields };
 }
